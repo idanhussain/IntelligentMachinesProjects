@@ -1,7 +1,6 @@
 import base64
 from cryptography.hazmat.primitives import serialization
 from cryptography.hazmat.primitives.asymmetric import padding
-from cryptography.hazmat.primitives.hashes import SHA256
 
 
 # Decrypt data using the private key
@@ -49,8 +48,9 @@ nvfkZ6PMsPqhTEtOkcIA4CDoqKFxoSBrR16xcigBv8cnFHOw8gof
 -----END RSA PRIVATE KEY-----
 """
 
-# Encrypted text (from JavaScript output)
-encrypted_text = "j5Fqe4OckbC0JYzZC8nmB5adNrL9RmOJtfCRvr8jmSlhNwtEuDDaE8fm5BRux0SyO/jBkiI8rxJp2hhVL/6nNF4/M9iDoy6YrmtpAY/akP5l0iMy6/H4qJb5URAnrj6knMIOaAPQhKcgfP823Ww40TOprJjkD+130e6CcYhN+kSOfZ7i2EaY/k8DoExUvmv9JsqPuo7kzkfCId9WdBMmdKxwnXcGKfXqUdzw0OsSWy1QlAF5vJp3Hrz6vgLSg/YGuSbz0AKr+Uz9W7XG6YyduG31XmApkcVHbowmruypqU8Kh01d+dLmOZ2dRNEXIe9tLXUIGTN094pY7jzcoRLx3w=="
+# Encrypted text from client
+encrypted_text = """
+XIhG1Muhf8ziT7EbUZmJyQMMAS4NSXjsg0ycTgziH5POh2+aJLjmrHIpldpUr2D/37n4zqumFro6yendpwHOmCKMvrbmLJM5PuqGYekACQ2qOnIiHIWoI1V/Nv7Dy740t/lxQxVCmws07F7O9YX5tlT0AhvTZXp3SWn6naxZAqMJLpTt0+4ugahl7V/yS9KfbmoXGCaIuih01XF1gcIK3oVYZASjxcaTxA6RD8eJuD9elTjSS24dvBHZso313XVUZY8CfazH4ZpTW0zUzCZgYavFT7hmCBp0a7o+Jiqh6GkccedhO6MMShA/FSh/Zu4MoyA1BCk1fr7z5mouXCB24g=="""
 
 # Decrypt the data
 try:

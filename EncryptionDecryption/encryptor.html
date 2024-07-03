@@ -8,7 +8,7 @@
 
 <body>
     <input type="password" id="password" placeholder="Enter password">
-    <button onclick="encryptAndSend()">Encrypt and Send</button>
+    <button onclick="encryptAndSend()">Encrypt</button>
 
     <script>
         const key = `-----BEGIN PUBLIC KEY-----
@@ -31,8 +31,7 @@ oeYe0ql6vToxnMOHJttanU4fAEiXLrjknm1WlbXoDx0os9LlvRO0EeDe6mywxnGM
         function encryptAndSend() {
             var pass = document.getElementById("password").value;
             var encryptedText = encryptData(pass, key);
-            // Send encryptedText to the backend for decryption (for demonstration, log it)
-            console.log("Send this encrypted text to the backend:", encryptedText);
+            console.log(encryptedText);
         }
     </script>
 </body>
