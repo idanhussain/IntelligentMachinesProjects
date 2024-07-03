@@ -4,6 +4,7 @@ from cryptography.hazmat.primitives.asymmetric import padding
 from cryptography.hazmat.primitives.hashes import SHA256
 
 
+# Decrypt data using the private key
 def decrypt_data(encrypted_text, private_key_pem):
     private_key = serialization.load_pem_private_key(
         private_key_pem.encode(),
@@ -11,16 +12,14 @@ def decrypt_data(encrypted_text, private_key_pem):
     )
 
     decrypted = private_key.decrypt(
-        encrypted_text,
-        padding.OAEP(
-            mgf=padding.MGF1(algorithm=SHA256()), algorithm=SHA256(), label=None
-        ),
+        base64.b64decode(encrypted_text),
+        padding.PKCS1v15(),  # Use PKCS#1 v1.5 padding to match JSEncrypt
     )
     return decrypted.decode()
 
 
 # Private key in PEM format
-private_key_pem = """
+pem_private_key = """
 -----BEGIN RSA PRIVATE KEY-----
 MIIEowIBAAKCAQEApbDipQkCbHohE76Fnw1ihRkLdQdZZepRWYLd9PsdGaG9kxLf
 +JLda/faz7g7ApKc4UvQCBKGNI4UIuXpFiGzx6C/E3vx4ziJGlRnbfxz1Rl0b9+O
@@ -50,15 +49,12 @@ nvfkZ6PMsPqhTEtOkcIA4CDoqKFxoSBrR16xcigBv8cnFHOw8gof
 -----END RSA PRIVATE KEY-----
 """
 
-# Encrypted text (base64 encoded string)
-encrypted_text_base64 = "Na7WDBmiarTRrRcJcETxb6HUqIe8ke3nNX1ILNpfeEU/lu0rF5A1zdKt0wt6BpH221AT64gB7sb6qmmA7W9TvQY5AwoYEPT4nMkKDxLuBh0SYDPPjzRA6etKormH/2aCD2RV1cLp3kJRDt/X27+GyrmqFXtutHNEEiFXF9hoU49K//JR2OyF4qaxpgFgd+DB2yhGnrmSiNl4blJABxgCHLVhrILT5OfWuEHUq4o2u05+pEg1J+ORklx9x8kR2RoaLhF23iSuEwMNQlJ+4OaZF3UMXZR1h8hepbul4VwL+DLU+wQQv/+f/I2ZKjxOoH2WK5RiJChCjUnw6gmO4RvVgA=="
+# Encrypted text (from JavaScript output)
+encrypted_text = "j5Fqe4OckbC0JYzZC8nmB5adNrL9RmOJtfCRvr8jmSlhNwtEuDDaE8fm5BRux0SyO/jBkiI8rxJp2hhVL/6nNF4/M9iDoy6YrmtpAY/akP5l0iMy6/H4qJb5URAnrj6knMIOaAPQhKcgfP823Ww40TOprJjkD+130e6CcYhN+kSOfZ7i2EaY/k8DoExUvmv9JsqPuo7kzkfCId9WdBMmdKxwnXcGKfXqUdzw0OsSWy1QlAF5vJp3Hrz6vgLSg/YGuSbz0AKr+Uz9W7XG6YyduG31XmApkcVHbowmruypqU8Kh01d+dLmOZ2dRNEXIe9tLXUIGTN094pY7jzcoRLx3w=="
 
-# Decode the base64 encoded string to bytes
-encrypted_text = base64.b64decode(encrypted_text_base64)
-
-# Decrypt the encrypted text
+# Decrypt the data
 try:
-    decrypted_message = decrypt_data(encrypted_text, private_key_pem)
+    decrypted_message = decrypt_data(encrypted_text, pem_private_key)
     print("Decrypted message:", decrypted_message)
 except Exception as e:
     print("An error occurred:", str(e))
