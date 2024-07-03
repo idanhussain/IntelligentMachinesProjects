@@ -4,6 +4,7 @@
  */
 
 const JSEncrypt = require('jsencrypt');
+// use crypto-js
 
 // npm install jsencrypt
 
@@ -14,7 +15,7 @@ function encryptData(password, publicKey) {
     return encrypted;
 }
 
-const pass = "suit"
+const pass = "edaad1235"
 const key = `-----BEGIN PUBLIC KEY-----
 MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApbDipQkCbHohE76Fnw1i
 hRkLdQdZZepRWYLd9PsdGaG9kxLf+JLda/faz7g7ApKc4UvQCBKGNI4UIuXpFiGz
@@ -26,4 +27,4 @@ oeYe0ql6vToxnMOHJttanU4fAEiXLrjknm1WlbXoDx0os9LlvRO0EeDe6mywxnGM
 -----END PUBLIC KEY-----`
 
 const encrypted = encryptData(pass, key);
-console.log("Encrypted Text: ", encrypted)
+print("Encrypted Text: ", encrypted)
