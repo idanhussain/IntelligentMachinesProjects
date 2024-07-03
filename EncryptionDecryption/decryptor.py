@@ -1,18 +1,14 @@
-# Authors: Idan Hussain, Edaad Azman
-# Encryptor Function
-
+import base64
 from cryptography.hazmat.primitives import serialization
 from cryptography.hazmat.primitives.asymmetric import padding
 from cryptography.hazmat.primitives.hashes import SHA256
 
-# pip install cryptography
 
-
-def decrypt_data(encrypted_text, private_key):
-    # private_key = serialization.load_pem_private_key(
-    #     private_key.encode(),
-    #     password=None,
-    # )
+def decrypt_data(encrypted_text, private_key_pem):
+    private_key = serialization.load_pem_private_key(
+        private_key_pem.encode(),
+        password=None,
+    )
 
     decrypted = private_key.decrypt(
         encrypted_text,
@@ -23,6 +19,7 @@ def decrypt_data(encrypted_text, private_key):
     return decrypted.decode()
 
 
+# Private key in PEM format
 private_key_pem = """
 -----BEGIN RSA PRIVATE KEY-----
 MIIEowIBAAKCAQEApbDipQkCbHohE76Fnw1ihRkLdQdZZepRWYLd9PsdGaG9kxLf
@@ -52,9 +49,16 @@ cuzhJaMBI2eoCOIaUGRlZCCYOyd1U4k2CZgvI/8XGiuwZPX0djNOeiORGaTr6I3v
 nvfkZ6PMsPqhTEtOkcIA4CDoqKFxoSBrR16xcigBv8cnFHOw8gof
 -----END RSA PRIVATE KEY-----
 """
-print(
-    decrypt_data(
-        "RAyN/6eeSZVcB0SPNwig0UWg/qldHQeBsQ9XskF31uu5ImyS8CWu1QySEQ8ifIqJPhQjFAWN5XVrqbRXC4iESbZBx9C9FeKtX/i3W8kHq+sQFY40TUOG/YFmGsl84PSvnJMo6fVznIcbJX58ccdo3ZB9UnC1q1O4WvffAg/aiYe63cHMAkt43LnUT77cIkPk6VWnyrRDI+G2diwpxkXnEWpoRW1GtYIQDbQRMZLpeVjW96aqT/PAC8TuUmx8Vt1Ph4oeq21one8T8x/dTJQddPVh065I3InRV2v1bRb3tgLlUsxjVx7W44m1FXOYg/ItyBRICVsGCJnbIRyjWXmIkQ==",
-        private_key_pem,
-    )
-)
+
+# Encrypted text (base64 encoded string)
+encrypted_text_base64 = "Na7WDBmiarTRrRcJcETxb6HUqIe8ke3nNX1ILNpfeEU/lu0rF5A1zdKt0wt6BpH221AT64gB7sb6qmmA7W9TvQY5AwoYEPT4nMkKDxLuBh0SYDPPjzRA6etKormH/2aCD2RV1cLp3kJRDt/X27+GyrmqFXtutHNEEiFXF9hoU49K//JR2OyF4qaxpgFgd+DB2yhGnrmSiNl4blJABxgCHLVhrILT5OfWuEHUq4o2u05+pEg1J+ORklx9x8kR2RoaLhF23iSuEwMNQlJ+4OaZF3UMXZR1h8hepbul4VwL+DLU+wQQv/+f/I2ZKjxOoH2WK5RiJChCjUnw6gmO4RvVgA=="
+
+# Decode the base64 encoded string to bytes
+encrypted_text = base64.b64decode(encrypted_text_base64)
+
+# Decrypt the encrypted text
+try:
+    decrypted_message = decrypt_data(encrypted_text, private_key_pem)
+    print("Decrypted message:", decrypted_message)
+except Exception as e:
+    print("An error occurred:", str(e))
