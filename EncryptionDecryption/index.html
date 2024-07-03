@@ -8,11 +8,9 @@
 
 <body>
     <input type="password" id="password" placeholder="Enter password">
-    <button onclick="encryptData(pass, key)">Encrypt and Send</button>
+    <button onclick="encryptAndSend()">Encrypt and Send</button>
 
     <script>
-
-        var pass = document.getElementById("password").value;
         const key = `-----BEGIN PUBLIC KEY-----
 MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApbDipQkCbHohE76Fnw1i
 hRkLdQdZZepRWYLd9PsdGaG9kxLf+JLda/faz7g7ApKc4UvQCBKGNI4UIuXpFiGz
@@ -21,16 +19,22 @@ euQf0k89r+CACgdw/dOsEwhVLp2+v+mcNlRjiQcIIwbKhRbDvc7/3c/N7fhIZu8F
 dzZ41c4yS3f/10rB2Rsle4dsL+o6Bshb98Hj5vxebmRWenyA6GqsDi4O/IQdmFEM
 oeYe0ql6vToxnMOHJttanU4fAEiXLrjknm1WlbXoDx0os9LlvRO0EeDe6mywxnGM
 +QIDAQAB
------END PUBLIC KEY-----`
+-----END PUBLIC KEY-----`;
 
         function encryptData(password, publicKey) {
             const encrypt = new JSEncrypt();
             encrypt.setPublicKey(publicKey);
             var encrypted = encrypt.encrypt(password);
-            console.log("Encrypted Text: ", encrypted)
+            console.log("Encrypted Text: ", encrypted);
             return encrypted;
         }
 
+        function encryptAndSend() {
+            var pass = document.getElementById("password").value;
+            var encryptedText = encryptData(pass, key);
+            // Send encryptedText to the backend for decryption (for demonstration, log it)
+            console.log("Send this encrypted text to the backend:", encryptedText);
+        }
     </script>
 </body>
 
