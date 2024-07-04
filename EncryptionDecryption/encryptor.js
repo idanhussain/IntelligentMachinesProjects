@@ -1,3 +1,6 @@
+const JSEncrypt = require("js-encrypt").JSEncrypt;
+module.exports = encryptString;
+
 const key = `-----BEGIN PUBLIC KEY-----
 MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApbDipQkCbHohE76Fnw1i
 hRkLdQdZZepRWYLd9PsdGaG9kxLf+JLda/faz7g7ApKc4UvQCBKGNI4UIuXpFiGz
@@ -9,15 +12,15 @@ oeYe0ql6vToxnMOHJttanU4fAEiXLrjknm1WlbXoDx0os9LlvRO0EeDe6mywxnGM
 -----END PUBLIC KEY-----`;
 
 function encryptString(plainText, publicKey) {
-    const encrypt = new JSEncrypt();
-    encrypt.setPublicKey(publicKey);
-    var encrypted = encrypt.encrypt(plainText);
-    return encrypted;
+  const encrypt = new JSEncrypt();
+  encrypt.setPublicKey(publicKey);
+  var encrypted = encrypt.encrypt(plainText);
+  return encrypted;
 }
 
 function encryptAndSend() {
-    var pass = document.getElementById("password").value;
-    var encryptedText = encryptString(pass, key);
-    console.log(encryptedText);
-    return encryptedText;
+  var pass = document.getElementById("password").value;
+  var encryptedText = encryptString(pass, key);
+  console.log(encryptedText);
+  return encryptedText;
 }

@@ -1,4 +1,4 @@
-const encryptData = require("./encryptor.js"); // Adjust the path if necessary
+const encryptString = require("./encryptor.js");
 const forge = require("node-forge");
 const fs = require("fs");
 const path = require("path");
@@ -14,18 +14,13 @@ oeYe0ql6vToxnMOHJttanU4fAEiXLrjknm1WlbXoDx0os9LlvRO0EeDe6mywxnGM
 +QIDAQAB
 -----END PUBLIC KEY-----`;
 
-test("encryptData function encrypts data correctly", () => {
-  const data = encryptAndSend();
-  const encryptedData = encryptData(data);
+test("encryptString function encrypts data correctly", () => {
+  const encryptedData = encryptString("data", publicKeyPem);
 
-  // Check if the encrypted data is not null or undefined
   expect(encryptedData).not.toBeNull();
   expect(encryptedData).toBeDefined();
 
-  // Check if the encrypted data is a string
   expect(typeof encryptedData).toBe("string");
 
-  // Additional checks could include the length of the encrypted string or specific patterns
-  // Note: Exact matching with encrypted data is generally not useful because encryption results vary
   expect(encryptedData.length).toBeGreaterThan(0);
 });
