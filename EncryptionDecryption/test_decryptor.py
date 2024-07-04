@@ -1,23 +1,6 @@
-import base64
-from cryptography.hazmat.primitives import serialization
-from cryptography.hazmat.primitives.asymmetric import padding
+import pytest
+from decryptor import decrypt_data
 
-
-# Decrypt data using the private key
-def decrypt_data(encrypted_text, private_key_pem):
-    private_key = serialization.load_pem_private_key(
-        private_key_pem.encode(),
-        password=None,
-    )
-
-    decrypted = private_key.decrypt(
-        base64.b64decode(encrypted_text),
-        padding.PKCS1v15(),  # Use PKCS#1 v1.5 padding to match JSEncrypt
-    )
-    return decrypted.decode()
-
-
-# Private key in PEM format
 pem_private_key = """
 -----BEGIN RSA PRIVATE KEY-----
 MIIEowIBAAKCAQEApbDipQkCbHohE76Fnw1ihRkLdQdZZepRWYLd9PsdGaG9kxLf
@@ -48,19 +31,48 @@ nvfkZ6PMsPqhTEtOkcIA4CDoqKFxoSBrR16xcigBv8cnFHOw8gof
 -----END RSA PRIVATE KEY-----
 """
 
-# Encrypted text from client
-encrypted_text = """
-mvREIjPpyl+HB3HuCDtBqLsLx6829ZrVXbszWltV9CfBLzsqT3RE8noWEvuHj1pB
-e4uhQggy/oP8BeoqFVyvi/JEQd+yHsn5cQxfGnn3c7goxO82WENH1sbacfqZJgQa
-xIlSMZaD76MEimYm4yWyviX/t35GPWgHb3HfKvTZ125gkJMFybkRi3vm5Swa51f6
-5ZfCk99rR5fPUetuZWhgPd3a7yFru6iISpxqVLPiBzii7jWf1AhU9v55NYvLE8z/
-j51jUJg7Ib9tTzIPIdf/J7eFtcM2u9L36TpVmPR+ktEy26OFcv2LMth+6goivuGH
-XXMYasK+ANRHGLd/rh2a/w==
+expected_decrypted_text = "This is the original message."
+
+encrypted_text_1 = """
+SCeBkSJMlIgDxYNWGrfRKa4CKRkN33oTg8K+JY8L4K96hs/+gCXOd7BRS25zJ/56
+q1Xf9hNrPLeQSvWMWx8aI/DpvDwZepjJA8f57OZw6o4A1TN8Mx2ObDo9RCnWEiYj
+T86ZZ2gIGaImlGk2g0TU+URqv/sNfR5phd3TL8zlirJ4XFW5zYlU8t3BcMvSFPHR
+0wHhH4Fy8t9XSXfje2wVE08fSyCMblZt6zfNgI3C6OuyI6C/ljglk5nMFJZzpMzS
+Fp8E+qLO+o24nSUJ5HDyCApm3uHiWUcMF0pYHbG/E35UYCd9+4L2DGTJoX+aEClt
+izFwAFEoI4zB2HHExmoeYw==
 """
 
-# Decrypt the data
-try:
-    decrypted_message = decrypt_data(encrypted_text, pem_private_key)
-    print("Decrypted message:", decrypted_message)
-except Exception as e:
-    print("An error occurred:", str(e))
+encrypted_text_2 = """
+AwQqgYtQXbXGZJHodZh1BszofdP9ysMqKSf1UaeNsW/sybjdLwOJu4cep46MIXPd
+4RuHOk96+vRMS6JZN9u6d4PtKkKnTU9gTzlZ2kF/BAjeH2l3iP47CW86vL5SB0V1
+1mqHQI7mWM99oaJguAodD3dvqiIADiGjypm9Uvj8MOma4hzqQ4K2RnB41wEVd9GO
+a6No9ULslw7gt5DIspdMeMv3GJa0wLBv1Y1KrEpgDpTuOO/eJ62I+4O5ydp2HejQ
+WDVunIrywuLGZV0Lvm7THWYkVxM0zBfuBXEsMZ5lQ/y22uF54hSu5Zga3ZeskVpF
+4gIXNuOrbtm4OdzM3etLqA==
+"""
+
+
+def test_decrypt_data_success():
+    decrypted_message = decrypt_data(encrypted_text_1, pem_private_key)
+    assert decrypted_message == expected_decrypted_text
+
+
+def test_different_encrypted_text_same_message():
+    decrypted_message_1 = decrypt_data(encrypted_text_1, pem_private_key)
+    decrypted_message_2 = decrypt_data(encrypted_text_2, pem_private_key)
+    assert decrypted_message_1 == decrypted_message_2
+
+
+def test_decrypt_data_invalid_key():
+    invalid_pem_private_key = "invalid key"
+    with pytest.raises(ValueError):
+        decrypt_data(encrypted_text_1, invalid_pem_private_key)
+
+
+def test_decrypt_data_invalid_encrypted_text():
+    invalid_encrypted_text = "invalid encrypted text"
+    with pytest.raises(ValueError):
+        decrypt_data(invalid_encrypted_text, pem_private_key)
+
+
+pytest.main()
