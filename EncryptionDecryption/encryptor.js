@@ -1,6 +1,7 @@
 const JSEncrypt = require("js-encrypt").JSEncrypt;
 module.exports = encryptString;
 
+// RSA Public Key
 const key = `-----BEGIN PUBLIC KEY-----
 MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApbDipQkCbHohE76Fnw1i
 hRkLdQdZZepRWYLd9PsdGaG9kxLf+JLda/faz7g7ApKc4UvQCBKGNI4UIuXpFiGz
@@ -11,16 +12,41 @@ oeYe0ql6vToxnMOHJttanU4fAEiXLrjknm1WlbXoDx0os9LlvRO0EeDe6mywxnGM
 +QIDAQAB
 -----END PUBLIC KEY-----`;
 
+// Function to encrypt a string
 function encryptString(plainText, publicKey) {
+  if (plainText === null || plainText === undefined) {
+    throw new Error("Input is null or undefined");
+  }
+  if (typeof plainText !== "string") {
+    throw new Error("Input is not a string");
+  }
   const encrypt = new JSEncrypt();
   encrypt.setPublicKey(publicKey);
   var encrypted = encrypt.encrypt(plainText);
   return encrypted;
 }
 
-function encryptAndSend() {
-  var pass = document.getElementById("password").value;
-  var encryptedText = encryptString(pass, key);
+// Function to print encryption on terminal
+function printEncryption(plainText) {
+  var encryptedText = encryptString(plainText, key);
   console.log(encryptedText);
   return encryptedText;
+}
+
+// Command line testing
+if (require.main === module) {
+  const readline = require("readline");
+  const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout,
+  });
+
+  rl.question("Enter text to encrypt: ", (inputText) => {
+    try {
+      printEncryption(inputText);
+    } catch (error) {
+      console.error(error.message);
+    }
+    rl.close();
+  });
 }
