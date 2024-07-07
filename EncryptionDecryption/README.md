@@ -1,6 +1,6 @@
 # RSA Encryptor and Decryptor 
 ## Introduction
-This code provides a simple implementation of RSA encryption and decryption in both JavaScript and Python. The JavaScript module encryptor.js allows you to encrypt strings using a public RSA key, while the Python decryptor.py allows you to decrypt the encrypted data using the corresponding private RSA key. This encryptor can be integrated into web applications to secure sensitive data transmission.
+This code provides a simple implementation of RSA encryption in JavaScript and decryption in Python. The JavaScript module encryptor.js allows you to encrypt strings using a public RSA key in the front end, while the Python decryptor.py allows you to decrypt the encrypted data using the corresponding private RSA key in the back end. This encryptor can be integrated into web applications to secure sensitive data transmission.
 
 ## Libraries
 - [js-encrypt](https://www.npmjs.com/package/jsencrypt):
