@@ -23,5 +23,3 @@ with open("public_key.pem", "wb") as f:
             format=serialization.PublicFormat.SubjectPublicKeyInfo,
         )
     )
-
-print("Keys generated and saved to private_key.pem and public_key.pem")
