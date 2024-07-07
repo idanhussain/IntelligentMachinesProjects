@@ -16,7 +16,7 @@ app.get('/', (req, res) => {
         answare: ''
     }
     resData.status = true;
-    resData.message = 'Hello Everyone From Code 180. This API is working......';
+    resData.message = 'This API is working...';
     return res.status(200).json(resData);
 });
 
