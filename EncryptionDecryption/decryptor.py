@@ -4,7 +4,7 @@ from cryptography.hazmat.primitives.asymmetric import padding
 
 
 # Decrypt data using the private key
-def decrypt_data(encrypted_text, private_key_pem):
+def decrypt_string(encrypted_text, private_key_pem):
     private_key = serialization.load_pem_private_key(
         private_key_pem.encode(),
         password=None,
@@ -60,7 +60,7 @@ XXMYasK+ANRHGLd/rh2a/w==
 
 # Decrypt the data
 try:
-    decrypted_message = decrypt_data(encrypted_text, pem_private_key)
+    decrypted_message = decrypt_string(encrypted_text, pem_private_key)
     print("Decrypted message:", decrypted_message)
 except Exception as e:
     print("An error occurred:", str(e))
